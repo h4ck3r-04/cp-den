@@ -4,7 +4,6 @@ import * as React from "react"
 import { useRouter } from "next/navigation"
 import { type DialogProps } from "@radix-ui/react-dialog"
 import { Circle, File } from "lucide-react"
-import { useTheme } from "next-themes"
 import { docsConfig } from "@/config/docs"
 import { cn } from "@/lib/utils"
 import { Button } from "./ui/button"
@@ -15,13 +14,11 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
 } from "@/components/ui/command"
 
 export function CommandMenu({ ...props }: DialogProps) {
   const router = useRouter()
   const [open, setOpen] = React.useState(false)
-  const { setTheme } = useTheme()
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {

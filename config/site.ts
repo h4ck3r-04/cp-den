@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: "shadcn/ui",
+  name: "cp-den",
   url: "",
   ogImage: "",
   description: "",
