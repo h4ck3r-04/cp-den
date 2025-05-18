@@ -14,6 +14,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
+import { Highlight, themes } from "prism-react-renderer"
 
 interface DocsProps {
   title: string;
@@ -155,11 +156,86 @@ export function DocsContent({
               </TabsList>
               {codeSnippets.map((snippet) => (
                 <TabsContent key={snippet.language} value={snippet.language}>
-                  <pre className="bg-muted text-sm p-4 rounded-md overflow-auto shadow-inner border border-border max-h-[500px]">
-                    <code className={`language-${snippet.language}`}>
-                      {snippet.code}
-                    </code>
-                  </pre>
+                  <Highlight
+                    theme={{
+                      ...themes.nightOwl,
+                      plain: {
+                        color: 'var(--primary)',
+                        backgroundColor: 'var(--secondary)'
+                      },
+                      styles: [
+                        {
+                          types: ['comment', 'prolog', 'doctype', 'cdata'],
+                          style: {
+                            color: '#6A9955',
+                            fontStyle: 'italic'
+                          }
+                        },
+                        {
+                          types: ['namespace'],
+                          style: {
+                            opacity: 0.7
+                          }
+                        },
+                        {
+                          types: ['string', 'attr-value'],
+                          style: {
+                            color: '#CE9178'
+                          }
+                        },
+                        {
+                          types: ['punctuation', 'operator'],
+                          style: {
+                            color: '#D4D4D4'
+                          }
+                        },
+                        {
+                          types: ['entity', 'url', 'symbol', 'number', 'boolean', 'variable', 'constant', 'property', 'regex', 'inserted'],
+                          style: {
+                            color: '#9CDCFE'
+                          }
+                        },
+                        {
+                          types: ['atrule', 'keyword', 'attr-name', 'selector'],
+                          style: {
+                            color: '#C586C0'
+                          }
+                        },
+                        {
+                          types: ['function', 'deleted', 'tag'],
+                          style: {
+                            color: '#569CD6'
+                          }
+                        },
+                        {
+                          types: ['function-variable'],
+                          style: {
+                            color: '#4EC9B0'
+                          }
+                        },
+                        {
+                          types: ['class-name'],
+                          style: {
+                            color: '#4EC9B0'
+                          }
+                        }
+                      ]
+                    }}
+                    code={snippet.code}
+                    language={snippet.language}
+                  >
+                    {({ className, style, tokens, getLineProps, getTokenProps }) => (
+                      <pre className="bg-muted text-sm p-4 rounded-md overflow-auto shadow-inner border border-border max-h-[500px]" style={style}>
+                        {tokens.map((line, i) => (
+                          <div key={i} {...getLineProps({ line })}>
+                            {line.map((token, key) => (
+                              <span key={key} {...getTokenProps({ token })} />
+                            ))}
+                          </div>
+                        ))}
+                      </pre>
+                    )}
+                  </Highlight>
                 </TabsContent>
               ))}
             </Tabs>
