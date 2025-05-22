@@ -14,15 +14,15 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
-import { Highlight, themes } from "prism-react-renderer"
+import { Highlight, themes } from "prism-react-renderer";
 
 interface DocsProps {
   title: string;
   description: string;
   relatedTopics?: string[];
-  explanation: RichTextBlock[];
-  useCases: RichTextBlock[];
-  codeSnippets: CodeBlock[];
+  explanation?: RichTextBlock[];
+  useCases?: RichTextBlock[];
+  codeSnippets?: CodeBlock[];
   timeComplexity?: {
     best: string;
     average: string;
@@ -53,32 +53,24 @@ export function DocsContent({
           </p>
         );
       case "heading":
+        const baseClasses = "text-foreground border-grid border-b py-1";
         if (block.level === 2) {
           return (
-            <h2
-              key={index}
-              className="mt-6 mb-2 text-2xl text-foreground border-grid border-b py-1"
-            >
+            <h2 key={index} className={`mt-6 mb-2 text-2xl ${baseClasses}`}>
               {block.content}
             </h2>
           );
         }
         if (block.level === 3) {
           return (
-            <h3
-              key={index}
-              className="mt-5 mb-2 text-xl text-foreground border-grid border-b py-1"
-            >
+            <h3 key={index} className={`mt-5 mb-2 text-xl ${baseClasses}`}>
               {block.content}
             </h3>
           );
         }
         if (block.level === 4) {
           return (
-            <h4
-              key={index}
-              className="mt-4 mb-2 text-lg text-foreground border-grid border-b py-1"
-            >
+            <h4 key={index} className={`mt-4 mb-2 text-lg ${baseClasses}`}>
               {block.content}
             </h4>
           );
@@ -86,14 +78,16 @@ export function DocsContent({
         return null;
       case "image":
         return (
-          <div key={index} className="my-6 flex flex-col items-center">
-            <Image
-              src={block.src}
-              alt={block.alt || ""}
-              width={800}
-              height={450}
-              className="rounded shadow-md max-w-full h-auto"
-            />
+          <div key={index} className="my-6 flex flex-col items-center w-full overflow-hidden">
+            <div className="w-full max-w-full overflow-hidden">
+              <Image
+                src={block.src}
+                alt={block.alt || ""}
+                width={800}
+                height={450}
+                className="rounded shadow-md w-full h-auto"
+              />
+            </div>
             {block.caption && (
               <figcaption className="mt-2 text-sm text-muted-foreground">
                 {block.caption}
@@ -115,7 +109,7 @@ export function DocsContent({
         <p className="text-balance text-base font-light text-foreground sm:text-lg">
           {description}
         </p>
-        {relatedTopics && relatedTopics.length > 0 && (
+        {relatedTopics?.length ? (
           <div className="mt-2 flex flex-wrap items-center gap-2">
             {relatedTopics.map((topic) => (
               <p
@@ -126,14 +120,18 @@ export function DocsContent({
               </p>
             ))}
           </div>
-        )}
-        <div className="flex flex-col gap-4">
-          {explanation.map((block, index) => renderBlock(block, index))}
-        </div>
-        <div className="flex flex-col gap-4">
-          {useCases.map((block, index) => renderBlock(block, index))}
-        </div>
-        {codeSnippets.length > 0 && (
+        ) : null}
+        {explanation?.length ? (
+          <div className="flex flex-col gap-4">
+            {explanation.map((block, index) => renderBlock(block, index))}
+          </div>
+        ) : null}
+        {useCases?.length ? (
+          <div className="flex flex-col gap-4">
+            {useCases.map((block, index) => renderBlock(block, index))}
+          </div>
+        ) : null}
+        {codeSnippets?.length ? (
           <div className="w-full mt-8">
             <h2 className="text-2xl mb-4 text-foreground border-grid border-b py-1">
               Code
@@ -164,61 +162,15 @@ export function DocsContent({
                         backgroundColor: 'var(--secondary)'
                       },
                       styles: [
-                        {
-                          types: ['comment', 'prolog', 'doctype', 'cdata'],
-                          style: {
-                            color: '#6A9955',
-                            fontStyle: 'italic'
-                          }
-                        },
-                        {
-                          types: ['namespace'],
-                          style: {
-                            opacity: 0.7
-                          }
-                        },
-                        {
-                          types: ['string', 'attr-value'],
-                          style: {
-                            color: '#CE9178'
-                          }
-                        },
-                        {
-                          types: ['punctuation', 'operator'],
-                          style: {
-                            color: '#D4D4D4'
-                          }
-                        },
-                        {
-                          types: ['entity', 'url', 'symbol', 'number', 'boolean', 'variable', 'constant', 'property', 'regex', 'inserted'],
-                          style: {
-                            color: '#9CDCFE'
-                          }
-                        },
-                        {
-                          types: ['atrule', 'keyword', 'attr-name', 'selector'],
-                          style: {
-                            color: '#C586C0'
-                          }
-                        },
-                        {
-                          types: ['function', 'deleted', 'tag'],
-                          style: {
-                            color: '#569CD6'
-                          }
-                        },
-                        {
-                          types: ['function-variable'],
-                          style: {
-                            color: '#4EC9B0'
-                          }
-                        },
-                        {
-                          types: ['class-name'],
-                          style: {
-                            color: '#4EC9B0'
-                          }
-                        }
+                        { types: ['comment'], style: { color: '#6A9955', fontStyle: 'italic' } },
+                        { types: ['namespace'], style: { opacity: 0.7 } },
+                        { types: ['string', 'attr-value'], style: { color: '#CE9178' } },
+                        { types: ['punctuation', 'operator'], style: { color: '#D4D4D4' } },
+                        { types: ['entity', 'url', 'number', 'boolean', 'variable', 'property'], style: { color: '#9CDCFE' } },
+                        { types: ['atrule', 'keyword', 'selector'], style: { color: '#C586C0' } },
+                        { types: ['function', 'tag'], style: { color: '#569CD6' } },
+                        { types: ['function-variable'], style: { color: '#4EC9B0' } },
+                        { types: ['class-name'], style: { color: '#4EC9B0' } }
                       ]
                     }}
                     code={snippet.code}
@@ -240,7 +192,7 @@ export function DocsContent({
               ))}
             </Tabs>
           </div>
-        )}
+        ) : null}
         {(timeComplexity || spaceComplexity) && (
           <div className="w-full mt-8">
             <h2 className="text-2xl mb-4 text-foreground border-grid border-b py-1">
@@ -275,7 +227,7 @@ export function DocsContent({
             )}
             {spaceComplexity && (
               <p className="text-base font-light text-foreground">
-                <span className="font-semibold">Space Complexity - </span>{" "}
+                <span className="font-semibold">Space Complexity - </span>
                 {spaceComplexity}
               </p>
             )}

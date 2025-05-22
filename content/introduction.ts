@@ -72,12 +72,6 @@ const data: Content = {
     },
   ],
   codeSnippets: [],
-  timeComplexity: {
-    best: "-",
-    average: "-",
-    worst: "-",
-  },
-  spaceComplexity: "-",
 };
 
 export default data;

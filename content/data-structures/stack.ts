@@ -73,12 +73,6 @@ int main() {
 }`,
     },
   ],
-  timeComplexity: {
-    best: "O(1)",
-    average: "O(1)",
-    worst: "O(1)",
-  },
-  spaceComplexity: "O(n)",
 };
 
 export default data;

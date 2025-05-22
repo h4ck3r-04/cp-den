@@ -2,18 +2,25 @@ import { DocsContent } from "./_components/docs-content";
 import { notFound } from "next/navigation";
 import { Content } from "@/types/content";
 
-export default async function DocPage({ params }: { params: { slug: string[] } }) {
-  const slugPath = params.slug?.join("/");
-  const modulePath = `@/content/${slugPath}`;
-  console.log(modulePath);
-
+async function getContentFromSlug(slugPath: string): Promise<Content | null> {
   try {
-    const contentModule = await import(modulePath);
-    const content: Content = contentModule.default;
-
-    return <DocsContent {...content} />
-  } catch (error) {
-    console.log(error);
-    return notFound()
+    const contentModule = await import(`@/content/${slugPath}`);
+    return contentModule.default as Content;
+  } catch (err) {
+    console.error("Failed to load content:", slugPath, err);
+    return null;
   }
+}
+
+export default async function DocPage({
+  params,
+}: {
+  params: { slug?: string[] };
+}) {
+  const slugPath = params.slug?.length ? params.slug.join("/") : "introduction";
+  const content = await getContentFromSlug(slugPath);
+
+  if (!content) return notFound();
+
+  return <DocsContent {...content} />;
 }
