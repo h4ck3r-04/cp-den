@@ -224,7 +224,7 @@ export function DocsContent({
                     code={snippet.code}
                     language={snippet.language}
                   >
-                    {({ className, style, tokens, getLineProps, getTokenProps }) => (
+                    {({ style, tokens, getLineProps, getTokenProps }) => (
                       <pre className="bg-muted text-sm p-4 rounded-md overflow-auto shadow-inner border border-border max-h-[500px]" style={style}>
                         {tokens.map((line, i) => (
                           <div key={i} {...getLineProps({ line })}>
