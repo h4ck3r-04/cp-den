@@ -13,7 +13,7 @@ export const docsConfig: DocsConfig = {
     },
     {
       title: "Documentation",
-      href: "/docs",
+      href: "/docs/introduction",
     },
   ],
   sidebarNav: [
@@ -22,7 +22,7 @@ export const docsConfig: DocsConfig = {
       items: [
         {
           title: "Introduction",
-          href: "/docs",
+          href: "/docs/introduction",
           items: [],
         },
       ],
@@ -43,6 +43,11 @@ export const docsConfig: DocsConfig = {
         {
           title: "Bubble Sort",
           href: "/docs/algorithms/bubble-sort",
+          items: [],
+        },
+        {
+          title: "Binary Search",
+          href: "/docs/algorithms/binary-search",
           items: [],
         },
       ],
