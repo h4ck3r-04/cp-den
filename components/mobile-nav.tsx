@@ -9,10 +9,10 @@ import { cn } from "@/lib/utils"
 import { useMetaColor } from "@/hooks/use-meta-color"
 import { Button } from "./ui/button"
 import {
-  Drawer,
-  DrawerContent,
-  DrawerTrigger,
-} from "@/components/ui/drawer"
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from "@/components/ui/sheet"
 
 export function MobileNav() {
   const [open, setOpen] = React.useState(false)
@@ -27,8 +27,8 @@ export function MobileNav() {
   )
 
   return (
-    <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerTrigger asChild>
+    <Sheet open={open} onOpenChange={onOpenChange}>
+      <SheetTrigger asChild>
         <Button
           variant="ghost"
           className="h-8 w-full gap-4 px-0 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 md:hidden"
@@ -52,9 +52,9 @@ export function MobileNav() {
             Search documentation...
           </span>
         </Button>
-      </DrawerTrigger>
-      <DrawerContent className="max-h-[80svh] p-0">
-        <div className="overflow-auto p-6">
+      </SheetTrigger>
+      <SheetContent side="left" className=" w-[300px] p-6">
+        <div className="overflow-auto">
           <div className="flex flex-col space-y-3">
             {docsConfig.mainNav?.map(
               (item) =>
@@ -99,8 +99,8 @@ export function MobileNav() {
             ))}
           </div>
         </div>
-      </DrawerContent>
-    </Drawer>
+      </SheetContent>
+    </Sheet>
   )
 }
 
@@ -125,7 +125,7 @@ function MobileLink({
         router.push(href.toString())
         onOpenChange?.(false)
       }}
-      className={cn("text-[1.15rem]", className)}
+      className={cn("text-[1rem]", className)}
       {...props}
     >
       {children}
